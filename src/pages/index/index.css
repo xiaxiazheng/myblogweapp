@@ -6,3 +6,18 @@
   bottom: 0;
   left: 0;
 }
+.index .maskLayer .firstNode {
+  font-weight: bold;
+}
+.index .maskLayer .firstNode .secondNode {
+  font-weight: normal;
+}
+.index .maskLayer .firstNode .secondNode .thirtNode {
+  display: block;
+  width: calc(98.9%);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.1rem 0.2rem 1rem;
+}
+.index .maskLayer .firstNode .secondNode .thirtNode.active {
+  color: #409eff;
+}
