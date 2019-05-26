@@ -1,7 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import './index.less'
-import { AtDrawer, AtButton, AtAccordion, AtList, AtListItem } from 'taro-ui'
+import { AtButton } from 'taro-ui'
+import Tree from '../tree/Tree'
+import Content from '../content/Content'
 
 export default class Index extends Component {
 
@@ -13,21 +15,20 @@ export default class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页',
+    navigationBarTitleText: '虾虾郑',
   }
   state = {
-    show: false,  // 显示抽屉
+    showMain: true,  // 显示首页
+    showTree: false,  // 显示抽屉
+    showContent: false,  // 显示具体内容
     activeNode: {  // 被点击的三级节点信息
       id: ''
     },
-    treelist: [],  // 树的列表
   }
 
   componentWillMount () { }
 
-  componentDidMount () {
-    this.init();
-  }
+  componentDidMount () { }
 
   componentWillUnmount () { }
 
@@ -35,116 +36,60 @@ export default class Index extends Component {
 
   componentDidHide () { }
 
-  init() {
-    Taro.request({
-      url: 'http://www.xiaxiazheng.cn:3000/back/tree?type=home',
-      header: {
-        'content-type': 'application/json'
-      }
-    }).then(res => {
-      if (res) {
-        let data = res.data.data;
-        data.forEach((item) => {
-          item.show = false;
-          item.children.map((jtem) => {
-            jtem.show = false;
-          });
-        });
-        this.setState({
-          treelist: data,
-        });
-      }
-    })
-  }
-
   // 显示抽屉
   showShadow () {
     this.setState({
-      show: true
+      showTree: true,
+      showContent: false,
     });
   }
 
-  // 显示第一层节点
-  showFirstNode(index): any {
-    let list: any = this.state.treelist;
-    let isShow = list[index].show;
-    list.map((item) => {
-      item.show = false;
-    });
-    list[index].show = !isShow;
+  // 点击回到首页
+  backMain() {
     this.setState({
-      treelist: list
+      showTree: false,
+      showMain: true
     });
   }
 
-  // 显示第二层节点
-  showSecondNode(index, jndex): any {
-    let list: any = this.state.treelist;
-    let isShow = list[index].children[jndex].show;
-    list.map((item) => {
-      item.children.map((jtem) => {
-        jtem.show = false
-      });
-    });
-    list[index].children[jndex].show = !isShow;
-    this.setState({
-      treelist: list
-    });
-  }
-
+  // 点击了树的子节点
   clickNode(ktem) {
-    console.log('点击子节点', ktem);
+    // 先把树关上
     this.setState({
-      show: false,
-      activeNode: ktem
+      showTree: false,
+      showMain: false,
     });
+    // 然后判断如果有变化就更新状态
+    if (ktem.id !== this.state.activeNode.id) {
+      this.setState({
+        activeNode: ktem,
+        showContent: true,
+      });
+    }
   }
 
   render () {
+    const { showMain, showTree, showContent, activeNode } = this.state;
     return (
       <View className='index'>
-        <Text>Hello world!</Text>
-        <AtButton className="showBtn" type='primary' onClick={this.showShadow}>点开抽屉</AtButton>
+        {/* 显示树的按钮，一直都在 */}
+        <AtButton className="show-btn" type='primary' onClick={this.showShadow.bind(this)}>点开抽屉</AtButton>
+        {/* 首页 */
+          showMain &&
+          <View>
+            <View>Hello world!</View>
+            <View>1. 未解决问题：使用这个 taro-ui 的破树，样式打不进去，估计要自己写一棵树了</View>
+            <View>2. 如果在 Content 组件挂载在页面的情况下，传值给子组件然后重新请求再渲染无法实现，目前的做法是点开树的时候就让该 Content 组件消失</View>
+            <View>3. 不单是无法动态渲染的问题，就连如何在函数中返回 TSX 然后跟 render() 那些拼在一起渲染都不知道怎么搞</View>
+            <View>4. 更别说还有获取数据的请求如何跟函数配合的问题了</View>
+          </View>
+        }
         {/* 抽屉遮罩层，展示树 */}
-        <AtDrawer
-          className="maskLayer"
-          show={this.state.show}
-          mask
-        >
-          { /* 第一层 */
-            this.state.treelist.map((item: any, index: number) => {
-              return (
-                <AtAccordion
-                  className="firstNode"
-                  open={item.show}
-                  onClick={this.showFirstNode.bind(this, index)}
-                  title={item.label}
-                >
-                  { /* 第二层 */
-                    item.children.map((jtem: any, jndex: any) => {
-                      return (
-                        <AtAccordion
-                          className="secondNode"
-                          open={jtem.show}
-                          onClick={this.showSecondNode.bind(this, index, jndex)}
-                          title={jtem.label}
-                        >
-                          { /* 第三层 */
-                            jtem.children.map((ktem: any) => {
-                              return (
-                                <Text className={ this.state.activeNode.id === ktem.id ? "thirtNode active" : "thirtNode"} onClick={this.clickNode.bind(this, ktem)}>{ktem.label}</Text>
-                              )
-                            })
-                          }
-                        </AtAccordion>
-                      )
-                    })
-                  }
-                </AtAccordion>
-              )
-            })
-          }
-        </AtDrawer>
+        <Tree showTree={showTree} onClickNode={this.clickNode.bind(this)} onBackMain={this.backMain.bind(this)} />
+        {/* 展示具体内容 */
+          !showMain && showContent &&
+          <Content activeNode={activeNode} />
+        }
       </View>
     )
   }
