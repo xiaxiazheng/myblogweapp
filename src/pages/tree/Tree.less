@@ -1,23 +1,53 @@
 .tree {
-  // 遮罩层
-  .mask-layer {
-    .backMain {
-      padding:0.4rem 0 0.6rem 0.6rem;
-      border-bottom:1px solid #ccc;
-      box-sizing:border-box;
+  .back-btn {
+    position: sticky;
+    top: 0;
+    padding: 0.4rem 0 0.6rem;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border-bottom:1px solid #ccc;
+    background-color: white;
+    box-sizing:border-box;
+  }
+  .first-node {
+    padding-bottom: 0.3rem;
+    .first-label {
+      margin: 0.3rem 0;
+      padding-left: 0.2rem;
+      .first-label-text {
+        margin-left: 0.2rem;
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #606266;
+      }
+      .active {
+        color: #409eff;
+      }
     }
-    .firstnode {
-      font-weight: bold;
-      .second-node {
-        font-weight: normal;
-        .thirt-node {
-          display: block;
-          width: calc(100% - 1.1rem);
-          font-size: 0.75rem;
-          padding: 0.2rem 0.1rem 0.2rem 1rem;
-          &.active {
-            color: #409eff;
-          }
+    .second-node {
+      .second-label {
+        padding: 0.3rem 0 0.1rem 1.2rem;
+        .second-label-text {
+          margin-left: 0.2rem;
+          font-size: 0.85rem;
+          font-weight: bold;
+          color: #606266c9;
+        }
+        .active {
+          color: #409eff;
+        }
+      }
+      .thirt-node {
+        display: block;
+        width: calc(100% - 1.1rem);
+        font-size: 0.8rem;
+        padding: 0.2rem 0 0.2rem 2.3rem;
+        .thirt-label-text {
+          color: #606266;
+        }
+        .active {
+          color: #409eff;
         }
       }
     }
