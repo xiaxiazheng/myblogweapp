@@ -1,17 +1,22 @@
 .content {
   margin-bottom: 1.5rem;
-  .cont-label {
+  .cont-nav {
     position:sticky;
     top:0;
-    margin: 0 0.5rem;
+    display: inline-block;
+    width: calc(100% - 0.5rem);
+    margin-bottom: 0.3rem;
+    padding-left:0.5rem;
     padding-bottom:0.2rem;
     font-size: 1rem;
     font-weight: bold;
     background-color:white;
     word-break:break-all;
+    text-align: left;
+    border-bottom:1px solid #ccc;
   }
   .cont-item {
-    margin: 0.4rem 0.7rem;
+    margin:0 0.7rem 0.4rem;
     .cont-title {
       margin-bottom: 0.2rem;
       padding-bottom: 0.2rem;
@@ -27,8 +32,5 @@
       word-break:break-all;
       white-space: pre-wrap;
     }
-    // .cont-image {
-    //   width: 100%;
-    // }
   }
 }

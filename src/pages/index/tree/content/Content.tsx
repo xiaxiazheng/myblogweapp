@@ -1,13 +1,17 @@
 import Taro, { Component } from '@tarojs/taro'
-import { AtCurtain } from 'taro-ui'
-import { View, RichText, Image } from '@tarojs/components'
+import { AtCurtain, AtButton, AtIcon } from 'taro-ui'
+import { View, Text, RichText, Image } from '@tarojs/components'
 import './Content.less'
 
 interface IProps {
-  activeNode: any
+  activeNode: any;
+  onBackTree: Function;
 }
 
 export default class Content extends Component<IProps, {}> {
+  static options = {
+    addGlobalClass: true
+  }
 
   state = {
     activeId: '',
@@ -34,6 +38,7 @@ export default class Content extends Component<IProps, {}> {
     }
   }
 
+  // 获取详细内容列表
   getList(id) {
     // 获取树具体节点的数据
     Taro.request({
@@ -63,6 +68,7 @@ export default class Content extends Component<IProps, {}> {
     });
   }
 
+  // 点击图片看大图
   clickImg(src) {
     this.setState({
       isOpen: true,
@@ -70,18 +76,31 @@ export default class Content extends Component<IProps, {}> {
     });
   }
 
+  // 关闭弹出的图片
   closeImg() {
     this.setState({
       isOpen: false
     });
   }
 
+  // 回到树的页面
+  backTree() {
+    this.props.onBackTree();
+  }
+
   render () {
     const { activeNodeList, isOpen, imgSrc } = this.state;
     return (
       <View className='content'>
-        <View className="cont-label">{this.props.activeNode.label}</View>
-        {
+        { // 返回按钮
+          <AtButton className="show-btn" type='primary' onClick={this.backTree.bind(this)}>
+            <AtIcon value='arrow-left' size='30' color='white'></AtIcon>
+          </AtButton>
+        }
+        { // 顶部导航
+          <Text className="cont-nav">{this.props.activeNode.label}</Text>
+        }
+        { // 内容详情
           activeNodeList.map((item: any, index: number) => {
             return (
               <View className="cont-item" key={index}>
@@ -95,16 +114,18 @@ export default class Content extends Component<IProps, {}> {
             )
           })
         }
-        <AtCurtain
-          isOpened={isOpen}
-          onClose={this.closeImg.bind(this)}
-        >
-          <Image
-            style="width:calc(100% + 63px);height:100%;margin-left:-32px;"
-            mode="widthFix"
-            src={imgSrc}
-          />
-        </AtCurtain>
+        { // 图片弹出框
+          <AtCurtain
+            isOpened={isOpen}
+            onClose={this.closeImg.bind(this)}
+          >
+            <Image
+              style="width:calc(100% + 63px);height:100%;margin-left:-32px;"
+              mode="widthFix"
+              src={imgSrc}
+            />
+          </AtCurtain>
+        }
       </View>
     )
   }

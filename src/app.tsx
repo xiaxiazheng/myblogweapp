@@ -20,7 +20,10 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      // 'pages/tree/Tree',
+      // 'pages/log/log',
+      // 'pages/photo/photo'
     ],
     window: {
       backgroundTextStyle: 'light',

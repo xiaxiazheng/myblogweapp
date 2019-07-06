@@ -1,9 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import './index.less'
-import { AtButton, AtIcon } from 'taro-ui'
-import Tree from '../tree/Tree'
-import Content from '../content/Content'
+import Tree from './tree/Tree'
 
 export default class Index extends Component {
 
@@ -18,6 +16,7 @@ export default class Index extends Component {
     navigationBarTitleText: '虾虾郑',
   }
   state = {
+    currentTab: 0,
     showMain: true,  // 显示首页
     showTree: false,  // 显示抽屉
     activeNode: {  // 被点击的三级节点信息
@@ -35,6 +34,13 @@ export default class Index extends Component {
 
   componentDidHide () { }
 
+  // 点击底部其中一个 tab
+  handleClick (value) {
+    this.setState({
+      currentTab: value
+    });
+  }
+
   // 显示抽屉
   showShadow () {
     this.setState({
@@ -50,41 +56,11 @@ export default class Index extends Component {
     });
   }
 
-  // 点击了树的子节点
-  clickNode(ktem) {
-    // 先把树关上
-    this.setState({
-      showTree: false,
-      showMain: false,
-    });
-    // 然后判断如果有变化就更新状态
-    if (ktem.id !== this.state.activeNode.id) {
-      this.setState({
-        activeNode: ktem,
-      });
-    }
-  }
-
   render () {
-    const { showMain, showTree, activeNode } = this.state;
     return (
       <View className='index'>
-        {/* 显示树的按钮，一直都在 */}
-        <AtButton className="show-btn" type='primary' onClick={this.showShadow.bind(this)}>
-          <AtIcon value='bookmark' size='30' color='white'></AtIcon>
-        </AtButton>
-        {/* 首页 */
-          showMain &&
-          <View>
-            <View>Hello world!</View>
-          </View>
-        }
-        {/* 抽屉遮罩层，展示树 */}
-        <Tree showTree={showTree} onClickNode={this.clickNode.bind(this)} onBackMain={this.backMain.bind(this)} />
-        {/* 展示具体内容 */
-          !showMain &&
-          <Content activeNode={activeNode} />
-        }
+        {/* 树 */}
+        <Tree />
       </View>
     )
   }
