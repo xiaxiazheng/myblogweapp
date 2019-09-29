@@ -1,10 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import './index.less'
 import Tree from './tree/Tree'
+import Log from './log/Log'
 
 export default class Index extends Component {
-
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -15,13 +15,9 @@ export default class Index extends Component {
   config: Config = {
     navigationBarTitleText: '虾虾郑',
   }
+
   state = {
-    currentTab: 0,
-    showMain: true,  // 显示首页
-    showTree: false,  // 显示抽屉
-    activeNode: {  // 被点击的三级节点信息
-      id: ''
-    },
+    currentTab: 'log'
   }
 
   componentWillMount () { }
@@ -33,13 +29,6 @@ export default class Index extends Component {
   componentDidShow () { }
 
   componentDidHide () { }
-
-  // 点击底部其中一个 tab
-  handleClick (value) {
-    this.setState({
-      currentTab: value
-    });
-  }
 
   // 显示抽屉
   showShadow () {
@@ -56,11 +45,31 @@ export default class Index extends Component {
     });
   }
 
+  choiceTab = (type: 'tree' | 'log') => {
+    this.setState({
+      currentTab: type
+    });
+  }
+
   render () {
+    const { currentTab } = this.state;
     return (
       <View className='index'>
-        {/* 树 */}
-        <Tree />
+        <View className="main">
+          {/* 树 */}
+          {currentTab === 'tree' &&
+            <Tree />
+          }
+          {/* 日志 */}
+          {currentTab === 'log' &&
+            <Log />
+          }
+        </View>
+        {/* 底部的 tab */}
+        <View className="footer">
+          <Text className="footer-tab" onClick={this.choiceTab.bind(null, 'tree')}>知识树</Text>
+          <Text className="footer-tab" onClick={this.choiceTab.bind(null, 'log')}>日志</Text>
+        </View>
       </View>
     )
   }

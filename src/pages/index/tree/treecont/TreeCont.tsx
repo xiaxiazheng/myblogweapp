@@ -1,14 +1,16 @@
 import Taro, { Component } from '@tarojs/taro'
 import { AtCurtain, AtButton, AtIcon } from 'taro-ui'
 import { View, Text, RichText, Image } from '@tarojs/components'
-import './Content.less'
+import './TreeCont.less'
 
 interface IProps {
   activeNode: any;
   onBackTree: Function;
 }
 
-export default class Content extends Component<IProps, {}> {
+const imgBackUrl = 'https://www.xiaxiazheng.cn:443/treecont/';
+
+export default class TreeCont extends Component<IProps, {}> {
   static options = {
     addGlobalClass: true
   }
@@ -39,7 +41,7 @@ export default class Content extends Component<IProps, {}> {
   }
 
   // 获取详细内容列表
-  getList(id) {
+  getList = (id: string) => {
     // 获取树具体节点的数据
     Taro.request({
       url: `https://www.xiaxiazheng.cn:443/back/cont?id=${id}`,
@@ -48,7 +50,8 @@ export default class Content extends Component<IProps, {}> {
       }
     }).then(res => {
       if (res) {
-        let list = res.data.data.list;
+        console.log(res)
+        let list = res.data.data;
         list.forEach((item) => {
           item.cont = item.cont.replace(/</g, "&lt;"); // html 标签的 < 转成实体字符,让所有的 html 标签失效
           item.cont = item.cont.replace(/pre>\n/g, "pre>"); // 把 pre 开始标签后面的空格去掉
@@ -59,7 +62,6 @@ export default class Content extends Component<IProps, {}> {
           item.cont = item.cont.replace(/&lt;\/pre>/g, "</div>"); // 把 pre 结束标签转回来
           item.cont = item.cont.replace(/  /g, "&nbsp;&nbsp;"); // 把空格转成实体字符，以防多空格被合并
           item.cont = item.cont.replace(/\n|\r\n/g, "<br/>"); // 把换行转成 br 标签
-          item.filename && (item.filename = `https://www.xiaxiazheng.cn:443/treecont/${item.filename}`)
         });
         this.setState({
           activeNodeList: list
@@ -91,7 +93,7 @@ export default class Content extends Component<IProps, {}> {
   render () {
     const { activeNodeList, isOpen, imgSrc } = this.state;
     return (
-      <View className='content'>
+      <View className='tree-cont'>
         { // 返回按钮
           <AtButton className="show-btn" type='primary' onClick={this.backTree.bind(this)}>
             <AtIcon value='arrow-left' size='30' color='white'></AtIcon>
@@ -107,14 +109,25 @@ export default class Content extends Component<IProps, {}> {
                 <View className="cont-title">{item.title}</View>
                 <RichText className="cont-cont" nodes={item.cont} />
                 {
-                  item.filename && 
-                  <Image style="width:100%;height:100%" lazyLoad mode="widthFix" onClick={this.clickImg.bind(this, item.filename)} src={item.filename}></Image>
-                }
+                  item.imgList.map((jtem: any, jndex: number) => {
+                    return (
+                      <Image
+                        key={jndex}
+                        style="width:100%;height:100%"
+                        lazyLoad
+                        mode="widthFix"
+                        onClick={this.clickImg.bind(this, jtem.imgfilename)}
+                        src={`${imgBackUrl}${jtem.imgfilename}`}>
+                      </Image>
+                    )
+                  })
+                  }
               </View>
             )
           })
         }
         { // 图片弹出框
+          imgSrc !== '' && 
           <AtCurtain
             isOpened={isOpen}
             onClose={this.closeImg.bind(this)}
@@ -122,7 +135,7 @@ export default class Content extends Component<IProps, {}> {
             <Image
               style="width:calc(100% + 63px);height:100%;margin-left:-32px;"
               mode="widthFix"
-              src={imgSrc}
+              src={`${imgBackUrl}${imgSrc}`}
             />
           </AtCurtain>
         }

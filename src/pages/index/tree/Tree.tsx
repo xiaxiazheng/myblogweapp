@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { AtIcon } from 'taro-ui'
 import './Tree.less'
-import Content from './content/Content'
+import TreeCont from './treecont/TreeCont'
 
 export default class Tree extends Component {
   static options = {
@@ -161,7 +161,7 @@ export default class Tree extends Component {
         }
         {/* 展示具体内容 */
           showMain &&
-          <Content activeNode={activeNode} onBackTree={this.backTree.bind(this)}/>
+          <TreeCont activeNode={activeNode} onBackTree={this.backTree.bind(this)}/>
         }
       </View>
     )
