@@ -1,5 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { AtTabBar } from 'taro-ui'; 
 import './index.less'
 import Tree from './tree/Tree'
 import Log from './log/Log'
@@ -17,7 +18,7 @@ export default class Index extends Component {
   }
 
   state = {
-    currentTab: 'log'
+    currentTab: 0
   }
 
   componentWillMount () { }
@@ -45,9 +46,9 @@ export default class Index extends Component {
     });
   }
 
-  choiceTab = (type: 'tree' | 'log') => {
+  choiceTab = (value) => {
     this.setState({
-      currentTab: type
+      currentTab: value
     });
   }
 
@@ -57,19 +58,24 @@ export default class Index extends Component {
       <View className='index'>
         <View className="main">
           {/* 树 */}
-          {currentTab === 'tree' &&
+          {currentTab === 0 &&
             <Tree />
           }
           {/* 日志 */}
-          {currentTab === 'log' &&
+          {currentTab === 1 &&
             <Log />
           }
         </View>
-        {/* 底部的 tab */}
-        <View className="footer">
-          <Text className="footer-tab" onClick={this.choiceTab.bind(null, 'tree')}>知识树</Text>
-          <Text className="footer-tab" onClick={this.choiceTab.bind(null, 'log')}>日志</Text>
-        </View>
+        <AtTabBar
+          className="tab-bar"
+          fixed
+          tabList={[
+            { title: '知识树' },
+            { title: '日志' },
+          ]}
+          onClick={this.choiceTab}
+          current={currentTab}
+        />
       </View>
     )
   }

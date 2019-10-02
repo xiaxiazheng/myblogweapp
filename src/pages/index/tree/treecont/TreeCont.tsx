@@ -121,7 +121,7 @@ export default class TreeCont extends Component<IProps, {}> {
                       </Image>
                     )
                   })
-                  }
+                }
               </View>
             )
           })

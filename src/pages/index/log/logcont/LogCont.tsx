@@ -53,13 +53,13 @@ export default class Content extends Component<IPropsType, {}> {
     return (
       <View className='log-cont'>
         { // 返回按钮
-          <AtButton className="show-btn" type='primary' onClick={this.props.onBackLogList.bind(this)}>
+          <AtButton className="back-to-log-list-btn" type='primary' onClick={this.props.onBackLogList.bind(this)}>
             <AtIcon value='arrow-left' size='30' color='white'></AtIcon>
           </AtButton>
         }
         <View className="log-title">{title}</View>
         <View className="log-author">{author}</View>
-        <RichText className="cont-cont" nodes={logcont} />
+        <RichText className="log-content" nodes={logcont} />
       </View>
     )
   }
