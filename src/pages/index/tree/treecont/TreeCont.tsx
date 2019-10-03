@@ -86,7 +86,7 @@ export default class TreeCont extends Component<IProps, {}> {
   }
 
   // 回到树的页面
-  backTree() {
+  backTree = () => {
     this.props.onBackTree();
   }
 
@@ -95,7 +95,7 @@ export default class TreeCont extends Component<IProps, {}> {
     return (
       <View className='tree-cont'>
         { // 返回按钮
-          <AtButton className="show-btn" type='primary' onClick={this.backTree.bind(this)}>
+          <AtButton className="back-to-tree-list-btn" type='primary' onClick={this.backTree}>
             <AtIcon value='arrow-left' size='30' color='white'></AtIcon>
           </AtButton>
         }
