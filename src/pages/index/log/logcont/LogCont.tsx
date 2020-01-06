@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { AtButton, AtIcon } from 'taro-ui'
 import { View, RichText } from '@tarojs/components'
-import './Content.less'
+import './LogCont.less'
 
 interface IPropsType {
   activeLogId: string;
