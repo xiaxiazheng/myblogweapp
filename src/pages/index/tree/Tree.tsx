@@ -31,7 +31,7 @@ export default class Tree extends Component {
   init() {
     // 获取树的列表的数据
     Taro.request({
-      url: 'https://www.xiaxiazheng.cn:443/back/tree?type=home',
+      url: 'https://www.xiaxiazheng.cn:444/back/tree?type=home',
       header: {
         'content-type': 'application/json'
       }

@@ -8,7 +8,7 @@ interface IProps {
   onBackTree: Function;
 }
 
-const imgBackUrl = 'https://www.xiaxiazheng.cn:443/treecont/';
+const imgBackUrl = 'https://www.xiaxiazheng.cn:444/treecont/';
 
 export default class TreeCont extends Component<IProps, {}> {
   static options = {
@@ -44,7 +44,7 @@ export default class TreeCont extends Component<IProps, {}> {
   getList = (id: string) => {
     // 获取树具体节点的数据
     Taro.request({
-      url: `https://www.xiaxiazheng.cn:443/back/cont?id=${id}`,
+      url: `https://www.xiaxiazheng.cn:444/back/cont?id=${id}`,
       header: {
         'content-type': 'application/json'
       }

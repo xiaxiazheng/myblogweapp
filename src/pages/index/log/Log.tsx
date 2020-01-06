@@ -37,7 +37,7 @@ export default class Log extends Component {
   initAllClass = () => {
     // 获取树的列表的数据
     Taro.request({
-      url: 'https://www.xiaxiazheng.cn:443/back/logallclass',
+      url: 'https://www.xiaxiazheng.cn:444/back/logallclass',
       header: {
         'content-type': 'application/json'
       }
@@ -63,7 +63,7 @@ export default class Log extends Component {
     Taro.request({
       method: "POST",
       data: params,
-      url: 'https://www.xiaxiazheng.cn:443/back/loglistall',
+      url: 'https://www.xiaxiazheng.cn:444/back/loglistall',
       header: {
         'content-type': 'application/json'
       }
