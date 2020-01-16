@@ -33,7 +33,8 @@ export default class Tree extends Component {
     Taro.request({
       url: 'https://www.xiaxiazheng.cn:444/back/tree?type=home',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'accept': 'application/json'
       }
     }).then(res => {
       if (res) {

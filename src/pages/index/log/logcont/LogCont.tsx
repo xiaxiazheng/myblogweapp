@@ -35,7 +35,8 @@ export default class Content extends Component<IPropsType, {}> {
     Taro.request({
       url: `https://www.xiaxiazheng.cn:444/back/logcont?id=${this.props.activeLogId}`,
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'accept': 'application/json'
       }
     }).then(res => {
       if (res) {

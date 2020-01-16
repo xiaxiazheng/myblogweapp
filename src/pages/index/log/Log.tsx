@@ -39,7 +39,8 @@ export default class Log extends Component {
     Taro.request({
       url: 'https://www.xiaxiazheng.cn:444/back/logallclass',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'accept': 'application/json'
       }
     }).then(res => {
       if (res) {
@@ -65,7 +66,8 @@ export default class Log extends Component {
       data: params,
       url: 'https://www.xiaxiazheng.cn:444/back/loglistall',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'accept': 'application/json'
       }
     }).then(res => {
       if (res) {

@@ -46,7 +46,8 @@ export default class TreeCont extends Component<IProps, {}> {
     Taro.request({
       url: `https://www.xiaxiazheng.cn:444/back/cont?id=${id}`,
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'accept': 'application/json'
       }
     }).then(res => {
       if (res) {
